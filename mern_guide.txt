@@ -1,0 +1,23 @@
+Mern process:
+
+create a project folder
+
+cd into that folder
+
+in terminal, run npm init. it will ask a series of prompts, for most you can press enter to leave them blank/default value, but feel free to add a descirption, and for the entry point, be sure to put server.js (so long as your server file is named that and not index or something.), for license, put MIT.
+
+create a folder within your project folder called backend. 
+
+within that folder, create a file server.js. In server.js, add console.log('hello from serverland.')
+
+in terminal, run command npm install express dotenv mongoose (colors)?.
+
+after thhose packages are done installing, run command npm i -D nodemon. This installs nodemon as  dev dependency (explain dev dependencies, nodemon). 
+
+go into the package.json file, which should be in the project folder, and find the "scripts" property. you can leave the test script if you plan on using it. Either way, make sure the scripts object also contans the following:
+"scripts": {
+    "start": "node backend/server.js",
+    "server": "nodemon backend/server.js"
+  },
+
+  we'll use these to start our 
