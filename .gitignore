@@ -1,3 +1,5 @@
-node_modules/
-assets/
+assets
+
+node_modules
+
 mern_guide.txt
