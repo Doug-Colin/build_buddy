@@ -1,0 +1,29 @@
+{
+  "name": "build_buddy",
+  "version": "1.0.0",
+  "description": "Productivity app for boutique manufacturers",
+  "main": "server.js",
+  "scripts": {
+    "start": "node backend/server.js",
+    "server": "nodemon backend/server.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Doug-Colin/build_buddy.git"
+  },
+  "author": "Doug Colin",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/Doug-Colin/build_buddy/issues"
+  },
+  "homepage": "https://github.com/Doug-Colin/build_buddy#readme",
+  "dependencies": {
+    "colors": "^1.4.0",
+    "dotenv": "^16.1.4",
+    "express": "^4.18.2",
+    "mongoose": "^7.2.3"
+  },
+  "devDependencies": {
+    "nodemon": "^2.0.22"
+  }
+}
