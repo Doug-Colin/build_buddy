@@ -1,32 +1,41 @@
-
+const express = require("express-async-handler") //asyncHandler
+const asyncHandler = require (express)  
 
 //descr: Get task
 //route: GET /api/tasks
 //access: Private
-const getTasks = (req, res) => {
-    res.status(200).json({ message: 'Get tasks' })
-}
+const getTasks = asyncHandler(async (req, res) => {
+    res.status(200).json({ message: 'Get tasks' })// 
+})
+
+   
+
 
 //descr: Set task
 //route: POST /api/tasks
 //access: Private
-const setTask = (req, res) => {
+const setTask = asyncHandler(async (req, res) => {
+    if(!req.body.text) {
+        res.status(400)
+        //Express sends errors as html, so setup errorMiddlware.js so we can send JSON, & require/app.use it in server.js
+        throw new Error('please add a text field')
+    }
     res.status(200).json({ message: 'Set tasks' })
-}
+})
 
 //descr: Update task
 //route: PUT /api/tasks/:id
 //access: Private
-const updateTask = (req, res) => {
+const updateTask = asyncHandler(async (req, res) => {
     res.status(200).json({ message: `Update task ${req.params.id}` })
-}
+})
 
 //descr: Delete task
 //route: DELETE /api/tasks/:id
 //access: Private
-const deleteTask = (req, res) => {
+const deleteTask = asyncHandler(async (req, res) => {
     res.status(200).json({ message: `Delete task ${req.params.id}` })
-}
+})
 
 
 module.exports = {
