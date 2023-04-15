@@ -1,5 +1,5 @@
-const express = require("express-async-handler") //asyncHandler
-const asyncHandler = require (express)  
+const asyncHandler = require("express-async-handler") //express-async-handler instead of try-catche
+  
 
 //descr: Get task
 //route: GET /api/tasks
