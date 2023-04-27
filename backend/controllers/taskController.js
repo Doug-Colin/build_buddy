@@ -1,37 +1,68 @@
-const asyncHandler = require("express-async-handler") //express-async-handler instead of try-catche
-  
+//installed express-async-handler package (so we can use it instead of try-catch)
+const asyncHandler = require("express-async-handler") 
+
+const Task = require('../models/taskModel')
+const { errorHandler } = require("../middleware/errorMiddleware")
 
 //descr: Get task
 //route: GET /api/tasks
 //access: Private
-const getTasks = (req, res) => {
-    res.status(200).json({ message: 'Get tasks' })
-}
+const getTasks = asyncHandler(async (req, res) => {
+    const tasks = await Task.find()
+
+    res.status(200).json(tasks)// 
+})
+
+   
+
 
 //descr: Set task
 //route: POST /api/tasks
 //access: Private
+////Express sends errors as html, so setup middleware.js so we can send JSON, & require/app.use it in server.js
 const setTask = asyncHandler(async (req, res) => {
-    if(!req.body.text) {
-        res.status(400)
-        //Express sends errors as html, so setup errorMiddlware.js so we can send JSON, & require/app.use it in server.js
-        throw new Error('please add a text field')
+    if (!req.body.text) {
+      res.status(400)
+      throw new Error('Please add a text field')
     }
-    res.status(200).json({ message: 'Set tasks' })
-})
+  
+    const task = await Task.create({
+      text: req.body.text,
+    })
+  
+    res.status(200).json(task)
+  })
 
 //descr: Update task
 //route: PUT /api/tasks/:id
 //access: Private
 const updateTask = asyncHandler(async (req, res) => {
-    res.status(200).json({ message: `Update task ${req.params.id}` })
+    const task = await Task.findById(req.params.id)
+
+    if (!task) {
+        res.status(400)
+        throw new error('Task not found.')
+    }
+    
+    const updatedTask = await Task.findByIdAndUpdate(req.params.id, req.body, {new: true,})
+
+    res.status(200).json(updatedTask)
 })
 
 //descr: Delete task
 //route: DELETE /api/tasks/:id
 //access: Private
 const deleteTask = asyncHandler(async (req, res) => {
-    res.status(200).json({ message: `Delete task ${req.params.id}` })
+    const task = await Task.findById(req.params.id)
+
+    if (!task) {
+        res.status(400)
+        throw new error('Task not found.')
+    }
+
+    await task.deleteOne()
+
+    res.status(200).json({ id: req.params.id })
 })
 
 
@@ -42,5 +73,4 @@ module.exports = {
     deleteTask,
 }
 
-//GIT_COMMITTER_DATE="2023-03-03 15:30:00" git commit --amend --no-edit --date "2023-03-03 15:30:00" 751f81eccd158f981f60e9151fe2ff71cc3f3dc9
 

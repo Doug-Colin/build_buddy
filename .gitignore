@@ -5,3 +5,5 @@ node_modules
 mern_guide.txt
 
 .vscode
+
+.env
