@@ -32,15 +32,16 @@ const registerUser = asyncHandler(async (req, res) => {  //mongoose and bcrypt b
         name,
         email,
         password: hashedPassword,
-    })
+      })
 
-    //
+    
     if(user) {
         res.status(201).json({
             _id: user.id,
             name: user.name,
-            email: user.email
-        })
+            email: user.email,
+            token: generateToken(user._id),
+          })
     } else {
         res.status(400)
         throw new Error('Invalid user data')
@@ -51,19 +52,48 @@ const registerUser = asyncHandler(async (req, res) => {  //mongoose and bcrypt b
 //route: POST /api/users/login
 //access: Public
 const loginUser = asyncHandler(async (req, res) => {
-    res.json({message: 'Login User'})
+    const { email, password } = req.body
+
+    //check for user email (25:16 -check server and postman when wifi is back)
+    const user = await User.findOne({ email })
+
+        if(user && (await bcrypt.compare(password, user.password))) {
+            res.json({
+                _id: user.id,
+                name: user.name,
+                email: user.email,
+                token: generateToken(user._id),
+            })
+        } else {
+            res.status(400)
+            throw new Error('Invalid credentials.')
+        }                            
 })
 
 
 //descr: Get user data
 //route: GET /api/users/current-user
-//access: Public
+//access: Private
 const getCurrentUser = asyncHandler(async (req, res) => {
-    res.json({message: 'User data display'})
-})
+    const { _id, name, email } = await User.findById(req.user.id)
+    
+    res.status(200).json({
+        id: _id,
+        name,
+        email
+    })
+  })
+
+// Generate JWT, pass 
+const generateToken = (id) => {
+    return jwt.sign({ id }, process.env.JWT_SECRET, {  //pass the id in as the payload for our json web token
+      expiresIn: '30d',
+    })
+  }
 
 module.exports = { 
     registerUser,
     loginUser,
     getCurrentUser,
+    generateToken,
  }
