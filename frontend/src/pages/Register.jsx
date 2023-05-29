@@ -4,7 +4,7 @@ import { FaUser } from 'react-icons/fa'
 
 
 export default function Register() {
-    //(alternative is each field being a separate form of state)
+    //formData object will hold state for all form on this componeent (alt. each field its own state)
     const [formData, setFormData ] = useState({
         name: '',
         email: '',
