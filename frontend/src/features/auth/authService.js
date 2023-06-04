@@ -22,9 +22,29 @@ const register = async (userData) => {
     return response.data
 }
 
+//Login user
+const login = async (userData) => {
+  //store the response from the API in variable response.
+  //path: API_URL = '/api/users/', so we only need to append 'login', no slash, to hit backend login endpoint
+  const response = await axios.post(API_URL + 'login', userData)
+  //if response contains data(w/token), successful registration, so store it locally so user stays authenticated
+  if (response.data) {
+      localStorage.setItem('user', JSON.stringify(response.data))
+  }
+
+  return response.data
+}
+
+//logout user - note, this is a simple way of doing this (for now). Could later instead use server and add an http cookie
+const logout = () => {
+  localStorage.removeItem('user')
+}
+
 //any functions created for export go here
 const authService = {
-    register
+    register,
+    logout,
+    login
 }
 
 export default authService

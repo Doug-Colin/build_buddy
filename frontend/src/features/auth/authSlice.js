@@ -34,6 +34,24 @@ export const register = createAsyncThunk('auth/register', async (user, thunkAPI)
     }
 })
 
+// Login user - async thunk function
+export const login = createAsyncThunk('auth/login', async (user, thunkAPI) => {
+    try {
+        return await authService.login(user) //returns the payload coming back from register fnctn in the service
+    } catch (error) {
+        //check for error messages wherever they could come from the server
+        const message = (error.response && error.response.data && error.response.data.message) || error.message || error.toString
+        //error/failed request will reject and send the error message with the payload 
+        return thunkAPI.rejectWithValue(message)   
+    }
+})
+
+// Logout user - async thunk function
+export const logout = createAsyncThunk('auth/logout',
+async () => {
+    await authService.logout()
+})
+
 //create the slice
 export const authSlice = createSlice({
     name: 'auth',
@@ -52,6 +70,7 @@ export const authSlice = createSlice({
     //extraReducers handle the different states of the registration process  (pending/fulfilled/succesfull) and update state accordingly
     extraReducers: (builder) => {
         builder
+            //account for the different actions that will be fired related upon *register* submission
             .addCase(register.pending, (state) => {
                 state.isLoading = true
             })
@@ -65,8 +84,26 @@ export const authSlice = createSlice({
                 state.isError = true
                 state.message = action.payload //update state mssg prprty with action.payload (error message) to return in above catch block
                 state.user = null
-            })  
-    } 
+            })
+            //account for the different actions that will be fired related upon *login* submission
+            .addCase(login.pending, (state) => {
+                state.isLoading = true
+            })
+            .addCase(login.fulfilled, (state, action) => {
+                state.isLoading = false
+                state.isSuccess = true
+                state.user = action.payload //action.payload is the response from the backend
+            })
+            .addCase(login.rejected, (state, action) => {
+                state.isLoading = false
+                state.isError = true
+                state.message = action.payload //payload is error message to return in above catch block
+                state.user = null
+            }) 
+            .addCase(logout.fulfilled, (state) => {
+                state.user = null
+            })        
+    }, 
 })
 
 //export authSlice so we can import it in src/app/store.js
