@@ -1,4 +1,4 @@
-import React from 'react'
+
 import { FaSignInAlt, FaSignOutAlt, FaUser } from 'react-icons/fa'
 import { Link, useNavigate } from 'react-router-dom'
 import { useSelector, useDispatch } from 'react-redux' //(Redux) these access the state to get the user for logout

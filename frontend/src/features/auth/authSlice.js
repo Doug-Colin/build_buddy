@@ -1,7 +1,7 @@
 // features/auth: this folder represents the auth part of our Global State
 // features/auth/authSlice.js: redux reducers and initial state go here 
 // In Redux, a slice refers to a portion of the Redux store that is responsible for managing a specific part of the application state. A Redux slice encapsulates the actions, reducers, and initial state related to a particular feature or domain of your application. It helps organize and modularize your Redux code by grouping related functionality together.
-// Benefit of using redux toolkit is server response automatically goes into pending, fulfilled, or rejected (in authSlice), so we don't have to manually handle  
+// Benefit of using redux toolkit is server response automatically goes into pending, fulfilled, or rejected (in authSlice), so we don't have to manually handle that
 
 //enables async functions & ability to create initial state from the server
 import { createSlice, createAsyncThunk } from '@reduxjs/toolkit'
@@ -28,7 +28,7 @@ export const register = createAsyncThunk('auth/register', async (user, thunkAPI)
         return await authService.register(user) //returns the payload coming back from register fnctn in the service
     } catch (error) {
         //check for error messages wherever they could come from the server
-        const message = (error.response && error.response.data && error.response.data.message) || error.message || error.toString
+        const message = (error.response && error.response.data && error.response.data.message) || error.message || error.toString()
         //error/failed request will reject and send the error message with the payload 
         return thunkAPI.rejectWithValue(message)   
     }
@@ -40,7 +40,7 @@ export const login = createAsyncThunk('auth/login', async (user, thunkAPI) => {
         return await authService.login(user) //returns the payload coming back from register fnctn in the service
     } catch (error) {
         //check for error messages wherever they could come from the server
-        const message = (error.response && error.response.data && error.response.data.message) || error.message || error.toString
+        const message = (error.response && error.response.data && error.response.data.message) || error.message || error.toString()
         //error/failed request will reject and send the error message with the payload 
         return thunkAPI.rejectWithValue(message)   
     }
@@ -58,6 +58,7 @@ export const authSlice = createSlice({
     initialState,
     //anything defined in reducers won't be asynchronous and won't be thunk functions
     //reset (regular reducer func.) enables resetting state to default values (for ex. after registering new user)
+    //since we want the user persists, we won't reset state to initialState, and instead reset all properties exept user 
     reducers: { 
         reset: (state) => {
             state.isLoading = false
