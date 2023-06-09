@@ -61,14 +61,20 @@ export const createTask = createAsyncThunk('tasks/create', async (taskData, thun
   }
 })
 
-/* ******* Eighth step - additional CRUD functionality in Slice.js ********************** 
--For example: add function for getTasks w/error handling, see below.
+/* ******* Eighth step - GET -additional CRUD functionality in Slice.js ********************** 
+-(READ) For example: add function for getTasks w/error handling, see getTasks **and** additional .addCase's in this files extraReducers. (NOTE - you can add getTasks function, then corresponding Service.js fnctn, then extraReducers in Slice.js. )
 */
 
 /* ******* Ninth step - additional CRUD functionality in Service.js ********************** 
 -After get function w/error handling in Slice.js file, add a corresponding get function to the Service.js file */
 
-//Get user tasks
+/* ******* Tenth step - additional CRUD functionality in Service.js ********************** 
+  -in Dashboard.jsx (or relevant component) (see Dashboard.jsx for steps)
+  */
+
+//Get user tasks // fetch tasks from server
+//since we're just getting tasks and not sending data, first arg is _, thunkAPI
+//to get all tasks & get relevant user, we'll need token, so save to variable and return in Service.js 
 export const getTasks = createAsyncThunk('tasks/getALL', async (_, thunkAPI) => {
   try {
     const token = thunkAPI.getState().auth.user.token
@@ -94,7 +100,7 @@ export const getTasks = createAsyncThunk('tasks/getALL', async (_, thunkAPI) => 
     -reset state in reducers (here we're resetting to initialState. With something like users/authSlice, )
     -add extraReducers (extraReducers is a fnctn that takes in a builder and calls it & addCases)
 */
-/* ************ Seventh step - add extraReducers in createSlice for POST/CRUD Create functionality ************* */
+/* ************ Seventh step - add extraReducers in createSlice for POST/CRUD CREATE functionality ************* */
 /* ******* Ninth step? - additional addCase() in extraReducers for other CRUD requests *************************** */
 export const taskSlice = createSlice({
   name: 'task',
@@ -113,6 +119,19 @@ export const taskSlice = createSlice({
         state.tasks.push(action.payload)
       })
       .addCase(createTask.rejected, (state, action) => {
+        state.isLoading = false
+        state.isError = true
+        state.message = action.payload
+      })
+      .addCase(getTasks.pending, (state) => {
+        state.isLoading = true
+      })
+      .addCase(getTasks.fulfilled, (state, action) => {
+        state.isLoading = false
+        state.isSuccess = true
+        state.tasks = action.payload
+      })
+      .addCase(getTasks.rejected, (state, action) => {
         state.isLoading = false
         state.isError = true
         state.message = action.payload

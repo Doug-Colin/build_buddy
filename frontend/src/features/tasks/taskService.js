@@ -27,7 +27,7 @@ const getTasks = async (token) => {
         }
     }
     //respond to req with config, which has the token
-    const response = await axios.post(API_URL, taskData, config) 
+    const response = await axios.get(API_URL, config) 
     
     return response.data
 }
@@ -36,6 +36,7 @@ const getTasks = async (token) => {
 
 const taskService = {
     createTask,
+    getTasks,
 }
 
 export default taskService
