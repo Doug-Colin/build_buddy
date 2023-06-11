@@ -72,6 +72,8 @@ export const createTask = createAsyncThunk('tasks/create', async (taskData, thun
   -in Dashboard.jsx (or relevant component) (see Dashboard.jsx for steps)
   */
 
+/* **** Eleventh step - Create new component to display content- (see Dashboard.jsx > TaskItem.jsx) ***** */
+
 //Get user tasks // fetch tasks from server
 //since we're just getting tasks and not sending data, first arg is _, thunkAPI
 //to get all tasks & get relevant user, we'll need token, so save to variable and return in Service.js 
