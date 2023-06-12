@@ -91,6 +91,24 @@ export const getTasks = createAsyncThunk('tasks/getALL', async (_, thunkAPI) => 
      return thunkAPI.rejectWithValue(message)  
   }
 })
+
+//Delete user task
+export const deleteTask = createAsyncThunk('tasks/delete', async (id, thunkAPI) => {
+  try {
+    const token = thunkAPI.getState().auth.user.token
+    return await taskService.deleteTask(id, token)
+  } catch (error) {
+    //check for error messages wherever they could come from the server
+    const message = (
+      error.response &&
+      error.response.data &&
+      error.response.data.message) ||
+      error.message ||
+      error.toString()
+    //error/failed request will reject and send the error message with the payload 
+    return thunkAPI.rejectWithValue(message)   
+  }
+})
 /* ************************** Sixth step - create/code relevant Service.js file ***************************** */
 
 
@@ -134,6 +152,19 @@ export const taskSlice = createSlice({
         state.tasks = action.payload
       })
       .addCase(getTasks.rejected, (state, action) => {
+        state.isLoading = false
+        state.isError = true
+        state.message = action.payload
+      })
+      .addCase(deleteTask.pending, (state) => {
+        state.isLoading = true
+      })
+      .addCase(deleteTask.fulfilled, (state, action) => {
+        state.isLoading = false
+        state.isSuccess = true
+        state.tasks = state.tasks.filter((task) => task._id !== action.payload.id)
+      })
+      .addCase(deleteTask.rejected, (state, action) => {
         state.isLoading = false
         state.isError = true
         state.message = action.payload

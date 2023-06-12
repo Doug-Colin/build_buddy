@@ -6,15 +6,21 @@
 -import component into Dashboard (or other parent component)
 */
 
-
 import React from "react"
+import { useDispatch } from 'react-redux' 
+import { deleteTask } from '../features/tasks/taskSlice'
+
 
 export default function TaskItem({task}) {
+
+    const dispatch = useDispatch()
+
     return (
         <div className="task">
-            <div>
-                {new Date(task.createdAt).toLocaleString('en-US')}
-            </div>
+            <button onClick={() => dispatch(deleteTask(task._id))} className="close">
+                X
+            </button>
+            <div>{new Date(task.createdAt).toLocaleString('en-US')}</div>
             <h2>{task.text}</h2>
         </div>
     )

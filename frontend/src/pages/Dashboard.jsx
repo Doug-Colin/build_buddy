@@ -37,7 +37,8 @@ In Dashboard.jsx (or relevant component):
                 <div className='tasks'> {tasks.map((task) => (<TaskItem key={task._id} task={task} />))}
             -You'll get an error as we still have to create the component (<TaskItem/>) to display data
     -Next step, create new Component in another file to display content
-    ******* Eleventh step - Create new component to display content of CRUD request - TaskItem.jsx (see that file) **********************
+    ******* Eleventh (final) step - Create new component to display content of CRUD request - TaskItem.jsx (see that file) **********************
+    ******* Twelfth step -work on next CRUD functionality (delete) for this feature! **********************
   */
 export default function Dashboard() {
     const navigate = useNavigate()
@@ -56,29 +57,36 @@ export default function Dashboard() {
         }
         
         dispatch(getTasks())
-
+        
+        return () => {
+            dispatch(reset())
+          }
     }, [user, navigate, dispatch, isError, message])
 
     if (isLoading) {
         return  <Spinner />
     }
 
-         return <>
-                    <section className='heading'>
-                        <h1>Welcome {user && user.name}</h1>
-                        <p>Tasks Dashboard</p>
-                    </section>
-                    
-                    <TaskForm />
-
-                    <section className='content'>
-                        {tasks.length > 0 ? (
-                            <div className='tasks'>
-                                {tasks.map((task) => (
-                                    <TaskItem key={task._id} task={task} />
-                                ))}
-                            </div>
-                        ) : (<h3>You have not set any tasks.</h3>)}
-                    </section>
-                </>
+    return (
+        <>
+          <section className='heading'>
+            <h1>Welcome {user && user.name}</h1>
+            <p>Tasks Dashboard</p>
+          </section>
+    
+          <TaskForm />
+    
+          <section className='content'>
+            {tasks.length > 0 ? (
+              <div className='tasks'>
+                {tasks.map((task) => (
+                  <TaskItem key={task._id} task={task} />
+                ))}
+              </div>
+            ) : (
+              <h3>You have not set any tasks</h3>
+            )}
+          </section>
+        </>
+      )
 }
