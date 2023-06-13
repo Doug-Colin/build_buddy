@@ -41,7 +41,7 @@ const deleteTask = async (taskId, token) => {
         }
     }
     //respond to req with config, which has the token
-    const response = await axios.delete(API_URL, taskId, config) 
+    const response = await axios.delete(API_URL + taskId, config) 
     
     return response.data
 }

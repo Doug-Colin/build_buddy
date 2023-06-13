@@ -88,6 +88,11 @@ const deleteTask = asyncHandler(async (req, res) => {
     await task.deleteOne()
 
     res.status(200).json({ id: req.params.id })
+    //tried changing above as frontend delete functionality is not working... seems it may be due to 'not being to access action.payload.id in taskSlice .addCase(deleteTask.fulfilled)...., as I beleive that is the return from the controller fucntion... so trying to respond with the following instead to grant that access:
+    //res.status(200).json({ message: `Goal ${req.params.id} deleted` })
+    //above did not work, trying this:
+    //return res.status(200).json({ id: req.params.id });
+    //above did not work, leaving first standard line. 
 })
 
 

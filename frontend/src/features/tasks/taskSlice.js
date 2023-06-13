@@ -163,6 +163,11 @@ export const taskSlice = createSlice({
         state.isLoading = false
         state.isSuccess = true
         state.tasks = state.tasks.filter((task) => task._id !== action.payload.id)
+        //w/ above, getting task req/promise rejected, and message 404 Not found... tried below but still 404
+        //state.tasks = state.tasks.filter((task) =>  task._id !== action.meta.arg)
+        //trying this:
+        //state.tasks = state.tasks.splice(state.tasks.indexOf(action.payload), 1)
+        //I still get 404 no matter what. so there's gotta be something else going on. 
       })
       .addCase(deleteTask.rejected, (state, action) => {
         state.isLoading = false

@@ -5,8 +5,9 @@ import { useSelector, useDispatch } from 'react-redux' //to grab the user from t
 import TaskForm from '../components/TaskForm'
 import TaskItem from '../components/TaskItem'
 import Spinner  from '../components/Spinner'
-import { getTasks, reset } from '../features/tasks/taskSlice'
-
+//import { getTasks, reset } from '../features/tasks/taskSlice'
+import { getTasks } from '../features/tasks/taskSlice'
+import { reset } from '../features/auth/authSlice'
 
 
 /* ******* Tenth step - additional CRUD functionality in Service.js ********************** 
@@ -61,7 +62,7 @@ export default function Dashboard() {
         return () => {
             dispatch(reset())
           }
-    }, [user, navigate, dispatch, isError, message])
+    }, [user, navigate, isError, message, dispatch])
 
     if (isLoading) {
         return  <Spinner />
