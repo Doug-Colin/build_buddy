@@ -14,7 +14,7 @@ import Spinner from '../components/Spinner' //bring in Spinner component
 //Login function is doing basically the same thing as Register.jsx, only instead of creating a user, it validates a user in the backend.
 
 export default function Login() {
-    //formData object will hold state for all form on this componeent (alt. each field its own state)
+    //formData object will hold state for all form on this component (alt. each field its own state)
     const [formData, setFormData ] = useState({
         email: '',
         password: '',
