@@ -22,9 +22,15 @@ export default function Header() {
     
     return (
         <header className='header'>
-            <div className='logo'>
+            <h1>Build Buddy</h1>
+            {/* <div className='logo'>
                 <Link to='/'>TaskSetter</Link>
-            </div>
+                <Link to='/'>Convert and Calculate</Link>
+                <Link to='/'>Projects</Link>
+                <Link to='/'>Notes</Link>
+                <Link to='/'>Costs</Link>
+                <Link to='/'>Clients</Link>
+            </div> */}
             <ul>
                 {user ? (
                     <li> 
