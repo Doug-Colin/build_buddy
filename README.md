@@ -1,4 +1,4 @@
-# build-buddy
+# Build Buddy
 Build Buddy is a web app that helps builders, fabricators, and craftsmen be more efficient.
 
 -Make industry specific calculations & unit conversions and save them to project notes.

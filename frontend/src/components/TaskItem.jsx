@@ -18,8 +18,8 @@ import { useState } from 'react';
 
 export default function TaskItem({task}) {
 
-  const dispatch = useDispatch();
-  const [showModal, setShowModal] = useState(false);
+const dispatch = useDispatch();
+const [showModal, setShowModal] = useState(false);
 const [modalData, setModalData] = useState('');
 
 const showModalData = () => {
