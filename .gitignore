@@ -2,6 +2,8 @@ assets
 
 node_modules
 
+.gitignore
+
 mern_guide_frontend.txt
 
 .vscode/
@@ -9,6 +11,8 @@ mern_guide_frontend.txt
 CRUD_delete_notes.txt
 
 CRUD_update_notes.txt
+
+backendCRUDnotes.txt
 
 deployment_&_other_notes.txt
 
