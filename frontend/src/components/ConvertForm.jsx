@@ -1,4 +1,3 @@
-import { useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import convert from 'convert-units'
 import { setValue, setCurrentUnit, setNewUnit, setResult,  } from '../features/convert/convertSlice'
