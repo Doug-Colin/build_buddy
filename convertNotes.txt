@@ -1,0 +1,193 @@
+Okay, so now I need help identifying the steps I need to take to add the following functionality.
+Currently, on page Dashboard.jsx, the user can navigate to page Convert.jsx via a <Link />. Convert.jsx imports and displays component ConvertForm.jsx. In ConvertForm.jsx, I'm grabbing the possible conversion units for the category 'length' from the convert-units js library. I'm displaying them in a select box, from which the frontend grabs the selections and uses them to perform the conversion (code example to follow the next paragraph).
+What I would like to do, is to display various buttons on Convert.jsx, and each button will be for a different category of units from the convert-units library (For ex., a button for 'length', a button for 'area', a button for 'speed' etc.). I want each button to load a form that is similar to what I currently have in ConvertForm.jsx, but I want the units in the select boxes to be the ones from the category the user selected ('area', 'volume', 'speed' etc.).
+I suppose that the most efficient way to do this would be to still have only one ConvertForm.jsx file, which grabs the category that the user selected from the button on Convert.jsx, and populates the select boxes with those units.
+Please consider my aforementioned file structure, and the following code from ConvertForm.jsx, and let me know what is considered the best practice way of doing this, and let me know each step I need to do in order to implement this functionality.
+ConvertForm.jsx:
+import { useDispatch, useSelector } from 'react-redux'
+import convert from 'convert-units'
+import { setCurrentUnit, setNewUnit, setResult, setValue } from '../features/convert/convertSlice'
+export default function ConvertForm() {
+const dispatch = useDispatch()
+
+const value = useSelector((state) => state.convert.value)
+const currentUnit = useSelector((state) => state.convert.currentUnit)
+const newUnit = useSelector((state) => state.convert.newUnit)
+const result = useSelector((state) => state.convert.result)
+
+
+const handleInputChange = (e) => {
+    const { name, value } = e.target
+
+    if(name === 'value') {
+        dispatch(setValue(value))
+    }
+    else if (name === 'currentUnit') {
+        dispatch(setCurrentUnit(value))
+    }
+    else if (name === 'newUnit') {
+        dispatch(setNewUnit(value))
+    }
+}
+
+
+
+const handleConversion = () => {
+    dispatch(
+        setResult(convert(value).from(currentUnit).to(newUnit))
+    )
+}
+
+
+
+return (
+    <div>
+        <h3>Length Conversion</h3>
+        <section className='form-group'>
+        <form>   
+                <label>
+                  Enter the value you would like to convert:
+                  <input
+                   type="number"
+                   name='value'
+                  value={value}
+                  onChange={handleInputChange} />
+                </label>
+                
+                <label>
+                  Enter your current unit of measurement:
+                  <select
+                    name="currentUnit"
+                    value={currentUnit}
+                    onChange={handleInputChange}
+                    >
+                    {convert().possibilities("length").map((unit, index) => (
+                        <option key={index} value={unit}>
+                            {unit}
+                        </option>
+                    ))}
+                  </select>
+                </label>
+                
+                <label>
+                Enter the unit of measurement you'd like to convert to:
+                  <select
+                  name="newUnit"
+                  value={newUnit}
+                  onChange={handleInputChange}
+                  >
+                  {convert().possibilities("length").map((unit, index) => (
+                        <option key={index} value={unit}>
+                            {unit}
+                        </option>
+                    ))}
+                  </select>
+                </label>
+                
+
+        </form>
+            <button className='btn' type='submit' onClick={handleConversion}>Convert</button>
+            <h2>{value} {currentUnit} equals {result} {newUnit}</h2>
+        
+        </section> 
+    </div>
+ )
+}
+Thanks in advance.
+
+------------------------------------------------------------------------------------------------
+🖥️
+To implement the functionality you described, where each button on Convert.jsx loads a form with select boxes populated based on the selected category, you can follow these steps:
+
+Update your Redux state: In your convertSlice.js file (or wherever you have defined your Redux slice), add a new field to store the selected category. For example:
+javascript
+Copy code
+
+const convertSlice = createSlice({
+  name: 'convert',
+  initialState,
+  reducers: {
+    // ...
+    setCategory(state, action) {
+      state.category = action.payload;
+    },
+  },
+});
+Modify Convert.jsx: In this component, import and use useDispatch from react-redux to dispatch an action whenever a category button is clicked. Here's an example of how it could be done:
+jsx
+Copy code
+
+import { useDispatch } from 'react-redux';
+import { setCategory } from '../features/convert/convertSlice';
+
+export default function Convert() {
+  const dispatch = useDispatch();
+
+  const handleCategoryClick = (category) => {
+    dispatch(setCategory(category));
+  };
+
+  return (
+    <div>
+      <h3>Unit Conversion</h3>
+      <button onClick={() => handleCategoryClick('length')}>Length</button>
+      <button onClick={() => handleCategoryClick('area')}>Area</button>
+      {/* Add more buttons for other categories */}
+    </div>
+ );
+}
+Update ConvertForm.jsx: Now that we have stored the selected category in the Redux state, modify ConvertForm component to utilize it and populate select options accordingly.
+Import useSelector from react-redux to access the selected category value.
+Use conditional rendering within JSX to display different labels and select boxes based on the current category.
+Replace hardcoded "length" in .possibilities("length") with {category} variable.
+Here's an updated version of ConvertForm.jsx:
+jsx
+Copy code
+
+import { useDispatch, useSelector } from 'react-redux';
+import convert from 'convert-units';
+import { setCurrentUnit, setNewUnit, setResult, setValue } from '../features/convert/convertSlice';
+
+export default function ConvertForm() {
+  const dispatch = useDispatch();
+
+  // Select the category value from Redux state
+  const category = useSelector((state) => state.convert.category);
+
+  // ...existing code...
+
+  
+  return (
+    <div>
+      <h3>{category.charAt(0).toUpperCase() + category.slice(1)} Conversion</h3>
+      {/* ...existing code... */}
+      
+      {/* Render select boxes based on selected category */}
+      <label>
+        Enter your current unit of measurement:
+        <select name="currentUnit" value={currentUnit} onChange={handleInputChange}>
+          {convert().possibilities(category).map((unit, index) => (
+            <option key={index} value={unit}>
+              {unit}
+            </option>
+          ))}
+        </select>
+      </label>
+
+      <label>
+        Enter the unit of measurement you'd like to convert to:
+        <select name="newUnit" value={newUnit} onChange={handleInputChange}>
+          {convert().possibilities(category).map((unit, index) => (
+            <option key={index} value={unit}>
+              {unit}
+            </option>
+          ))}
+        </select>
+      </label>
+
+     {/* ...existing code... */}
+    </div> 
+ );
+}
+With these changes in place, clicking on different buttons in Convert.jsx will update the selected category in the Redux state. The form in ConvertForm.jsx will then display select boxes with units specific to that selected category.
+Remember to import and use the necessary actions and reducers within your Redux slice for setting and accessing the updated category field.

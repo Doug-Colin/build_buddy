@@ -2,6 +2,8 @@ assets
 
 node_modules
 
+.gitignore
+
 mern_guide_frontend.txt
 
 .vscode/
@@ -10,11 +12,15 @@ CRUD_delete_notes.txt
 
 CRUD_update_notes.txt
 
+backendCRUDnotes.txt
+
 deployment_&_other_notes.txt
 
 sampleSlice.js
 
 structureNotes.txt
+
+.convertNotes.txt
 
 .prettierrc
 
