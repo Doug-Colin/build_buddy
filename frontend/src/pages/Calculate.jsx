@@ -1,21 +1,19 @@
 import React  from 'react'
-import ConvertForm from '../components/ConvertForm'
-import { useDispatch } from 'react-redux'
-import { setCategory } from '../features/convert/convertSlice'
+import CalcForm from '../components/CalcForm'
+// import { useDispatch } from 'react-redux'
+// import { setCategory } from '../features/convert/convertSlice'
 
-export default function Convert() {
+export default function Calculate() {
 
-  const dispatch = useDispatch()
+  // const dispatch = useDispatch()
 
-  const handleCategoryClick = (category) => {
-    dispatch(setCategory(category))
-  }
-
-  // length area mass volume each temperature time digital partsPer speed pace pressure current voltage power reactivePower apparentPower energy reactiveEnergy volumeFlowRate illuminance frequency angle
+//   const handleCategoryClick = (category) => {
+//     dispatch(setCategory(category))
+//   }
 
   return (
     <div className=''>
-      <div className='conversion-unit-categories'>
+      {/* <div className='conversion-unit-categories'>
         <h1>Unit Conversion:</h1>
         <br/>
         <h1>Common Units</h1>
@@ -51,8 +49,8 @@ export default function Convert() {
           <button className='btn' type='button' onClick={() => handleCategoryClick('reactivePower')}>Reactive Power</button>
         </section>
         <br/>
-      </div>
-      <ConvertForm />
+      </div> */}
+      <CalcForm />
     </div>
       )
 }

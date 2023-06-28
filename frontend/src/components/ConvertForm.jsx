@@ -1,12 +1,16 @@
+import React from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import convert from 'convert-units'
-import { setCurrentUnit, setNewUnit, setResult, setValue } from '../features/convert/convertSlice'
+import { setValue, setCurrentUnit, setNewUnit, setResult,  } from '../features/convert/convertSlice'
 
 
 export default function ConvertForm() {
 
+    
     const dispatch = useDispatch()
 
+    //select category that the user clicked on in page Convert.jsx from Redux state 
+    const category = useSelector((state) => state.convert.category)
     const value = useSelector((state) => state.convert.value)
     const currentUnit = useSelector((state) => state.convert.currentUnit)
     const newUnit = useSelector((state) => state.convert.newUnit)
@@ -38,8 +42,8 @@ export default function ConvertForm() {
 
  
     return (
-        <div>
-            <h3>Length Conversion</h3>
+        <div className='content'>
+            <h3>{category} Conversion</h3>
             <section className='form-group'>
             <form>   
                     <label>
@@ -58,7 +62,7 @@ export default function ConvertForm() {
                         value={currentUnit}
                         onChange={handleInputChange}
                         >
-                        {convert().possibilities("length").map((unit, index) => (
+                        {convert().possibilities(category).map((unit, index) => (
                             <option key={index} value={unit}>
                                 {unit}
                             </option>
@@ -73,7 +77,7 @@ export default function ConvertForm() {
                       value={newUnit}
                       onChange={handleInputChange}
                       >
-                      {convert().possibilities("length").map((unit, index) => (
+                      {convert().possibilities(category).map((unit, index) => (
                             <option key={index} value={unit}>
                                 {unit}
                             </option>
@@ -85,8 +89,10 @@ export default function ConvertForm() {
             </form>
                 <button className='btn' type='submit' onClick={handleConversion}>Convert</button>
                 <h2>{value} {currentUnit} equals {result} {newUnit}</h2>
-            
             </section> 
+            <section>
+            {category}
+            </section>
         </div>
      )
 }

@@ -167,6 +167,12 @@ h3 {
   justify-content: center;
 }
 
+
+.conversion-unit-categories > section {
+  display: flex; 
+  justify-content: center;
+  }
+
 .btn svg {
   margin-right: 8px;
 }

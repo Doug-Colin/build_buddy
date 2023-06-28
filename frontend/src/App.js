@@ -7,6 +7,7 @@ import Login from './pages/Login'
 import Register from './pages/Register'
 import TaskSetter from './pages/TaskSetter'
 import Convert from './pages/Convert'
+import Calculate from './pages/Calculate'
 
 
 function App() {
@@ -21,7 +22,8 @@ function App() {
             <Route path='/login' element={<Login />} />
             <Route path='/register' element={<Register />} />
             <Route path='/task-setter' element={<TaskSetter />} />
-            <Route path='/calculate-convert' element={<Convert />} />
+            <Route path='/convert' element={<Convert />} />
+            <Route path='/calculate' element={<Calculate />} />
           </Routes>  
         </div>
       </Router>

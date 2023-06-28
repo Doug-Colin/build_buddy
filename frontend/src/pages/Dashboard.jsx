@@ -155,8 +155,15 @@ export default function Dashboard() {
             </li>
             <li>
               <button className='btn'>
-                <Link to='/calculate-convert'>
-                   Calculations and Conversions
+                <Link to='/convert'>
+                   Unit Conversions
+                </Link>
+              </button>
+            </li>
+            <li>
+              <button className='btn'>
+                <Link to='/calculate'>
+                   Calculations
                 </Link>
               </button>
             </li>
