@@ -1,10 +1,12 @@
+import React from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import convert from 'convert-units'
 import { setValue, setCurrentUnit, setNewUnit, setResult,  } from '../features/convert/convertSlice'
 
+//add function later to convertSlice for POST request to save converted value to note, and dispatch function here
 
 export default function ConvertForm() {
-    // const [text, setText] = useState('')
+
     const dispatch = useDispatch()
 
     //select category that the user clicked on in page Convert.jsx from Redux state 
@@ -40,10 +42,11 @@ export default function ConvertForm() {
 
  
     return (
-        <div>
-            <h3>{category} Conversion</h3>
+        <div className='content'>
+            <br/ >
+            <h3>Convert {category} units</h3>
             <section className='form-group'>
-            <form>   
+                <form>   
                     <label>
                       Enter the value you would like to convert:
                       <input
@@ -75,22 +78,17 @@ export default function ConvertForm() {
                       value={newUnit}
                       onChange={handleInputChange}
                       >
-                      {convert().possibilities(category).map((unit, index) => (
+                      {convert().possibilities(category).map((unit, index) => ( 
                             <option key={index} value={unit}>
                                 {unit}
                             </option>
                         ))}
                       </select>
                     </label>
-                    
-
-            </form>
+                </form>
                 <button className='btn' type='submit' onClick={handleConversion}>Convert</button>
                 <h2>{value} {currentUnit} equals {result} {newUnit}</h2>
             </section> 
-            <section>
-            {category}
-            </section>
         </div>
      )
 }

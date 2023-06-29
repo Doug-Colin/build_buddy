@@ -42,5 +42,3 @@ export const { setCategory, setValue , setCurrentUnit , setNewUnit , setResult }
 
 //export the reducer
 export default convertSlice.reducer
-
-//comment
