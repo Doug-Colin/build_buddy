@@ -213,6 +213,69 @@ h3 {
   animation: spin 1.2s linear infinite;
 }
 
+/* Following Styles are experimental for feature ClayCalc */
+content {
+  font-family: sans-serif;
+  max-width: 600px;
+  margin: 0 auto;
+}
+
+.form-group {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.shape-selector {
+  display: flex;
+}
+
+.shape-selector button {
+  margin: 10px;
+  padding: 10px 20px;
+  border: none;
+  border-radius: 5px;
+  background-color: #f2f2f2;
+}
+
+.shape-selector button.selected {
+  background-color: #0d0e0e;
+  color: white;
+}
+
+.input-group {
+  display: flex;
+}
+
+.input-group label {
+  text-align: center;
+  margin-right: 10px;
+}
+
+.input-group input[type='number'] {
+  margin: 10px;
+}
+
+button {
+  margin: 10px;
+  padding: 10px 20px;
+  border: none;
+  border-radius: 5px;
+}
+
+.result-group div {
+  margin-bottom: 10px;
+}
+
+
+
+
+
+
+
+
+
+
 @keyframes spin {
   0% {
     transform: rotate(0deg);

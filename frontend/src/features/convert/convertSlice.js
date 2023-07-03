@@ -3,7 +3,7 @@ import { createSlice } from '@reduxjs/toolkit'
 //redux service not yet needed- see below note 
 //import convertService from './convertService'
 
-//---------- NOTE - Not currently using AsyncThunk as this state does not yet need to be communicated to the backend. Once notes functionality is implemented, that function will be needed here to enable 'Add converted units to project notes' function (in addition to the extraReducers for async error handling)
+//---------- NOTE - Once 'notes' functionality is implemented, use async Thunk to enable 'Add converted units to project notes' function (in addition to the extraReducers for async error handling).
 
 //define initial state value that matches what you currently have in Convert.jsx (got feature working before moving state to redux and forms to separate component). 
 const initialState = {
