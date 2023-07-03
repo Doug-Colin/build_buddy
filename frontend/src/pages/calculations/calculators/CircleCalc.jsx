@@ -40,7 +40,7 @@ export default function CircleCalc() {
     const { name, value } = event.target;
     const radius = radiusDictionary[name](value);
 
-    //not necessary for calculation but we need it  prevents eslint 'no-unused-vars' warning
+    //not necessary for calculation but we need it (so input is visible- also prevents eslint 'no-unused-vars' warning)
     setCircleInput((prevInput) => ({
       ...prevInput,
       [name]: value,

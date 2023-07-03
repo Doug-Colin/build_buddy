@@ -1,6 +1,6 @@
 import { solveTriangle } from 'triangle-completion';
 import { useState } from 'react';
-import triangleIcon from '../assets/triangleIcon.png';
+import triangleIcon from '../../../assets/triangleIcon.png';
 
 //---------- Once 'notes' functionality is implemented, implement Redux Slice & Service & use async Thunk to 'add converted units to project notes' function (in addition to the extraReducers for async error handling). State is local here, but just create an action in the Slice file to grab the local state here as a param and dispatch it to the redux store.  
 

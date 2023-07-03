@@ -1,7 +1,7 @@
 import React  from 'react'
-import ConvertForm from '../components/ConvertForm'
+import ConvertForm from './UnitConversionForm'
 import { useDispatch } from 'react-redux'
-import { setCategory } from '../features/convert/convertSlice'
+import { setCategory } from '../../features/convert/convertSlice'
 
 export default function Convert() {
 
