@@ -5,7 +5,6 @@
 // import TaskForm from '../components/TaskForm'
 // import TaskItem from '../components/TaskItem'
 // import Spinner  from '../components/Spinner'
-// //import { getTasks, reset } from '../features/tasks/taskSlice'
 // import { getTasks } from '../features/tasks/taskSlice'
 // import { reset } from '../features/auth/authSlice'
 
@@ -69,88 +68,129 @@
 //     }
 
 //     return (
-//         <>
-//           <section className='heading'>
-//             <h1>Welcome {user && user.name}</h1>
-//             <p>Tasks Dashboard</p>
-//           </section>
-    
-//           <TaskForm />
-    
-//           <section className='content'>
-//             {tasks.length > 0 ? (
-//               <div className='tasks'>
-//                 {tasks.map((task) => (
-//                   <TaskItem key={task._id} task={task} />
-//                 ))}
-//               </div>
-//             ) : (
-//               <h3>You have not set any tasks</h3>
-//             )}
-//           </section>
-//         </>
-//       )
-// }
+//       <div className='dashboard' data-testid="dashboard">
+//         <section className="heading">
+//           <h1>Welcome, {user && user.name}</h1>
+//           <p>Dashboard</p>
+//         </section>
+//         <TaskForm />
+  
+//         {/* Display Tasks */}
+//         <section className="content">
+//           {tasks.length > 0 ? (
+//             <div data-testid="tasks" className="tasks">
+//               {tasks.map((task) => (
+//                 <TaskItem key={task._id} task={task} />
+//               ))}
+//             </div>
+//           ) : (
+//             <h3>There are no tasks to show now. Consider adding some first.</h3>
+//           )}
+//         </section>
+//       </div>
+//     )
+//   }
 
-//---------------------------- Update tasks with Modal ------------------------------------------------
 
-import {useEffect} from 'react';
-import { Link, useNavigate } from 'react-router-dom';
-import { useSelector, useDispatch } from 'react-redux';
-import TaskForm from '../components/TaskForm';
-import Spinner from '../components/Spinner';
-import { getTasks, reset } from '../features/tasks/taskSlice';
-import TaskItem from '../components/TaskItem';
 
-function Dashboard() {
-  const navigate = useNavigate();
-  const dispatch = useDispatch();
-  const {user} = useSelector((state) => state.auth);
-  const {tasks, isLoading, isError, message} = useSelector((state) => state.tasks);
 
-  useEffect(() => {
-    if (isError) {
-      console.log(message);
+
+//------------------------------------- Attempt to remove tasks to own page ------------------------
+
+
+import React from 'react'
+import { useEffect } from 'react'
+import { Link, useNavigate } from 'react-router-dom' //to redirect the user
+import { useSelector, useDispatch } from 'react-redux' //to grab the user from the state to check if logged in or not
+import Spinner  from '../components/Spinner'
+import { getTasks } from '../features/tasks/taskSlice'
+import { reset } from '../features/auth/authSlice'
+
+
+
+export default function Dashboard() {
+    const navigate = useNavigate()
+    const dispatch = useDispatch()
+
+    const {user} = useSelector((state) => state.auth)  //user is coming from state.auth
+    const {tasks, isLoading, isError, message} = useSelector((state) => state.tasks)
+
+    //useEffect - make /login the default page (if user is not logged in, redirect to login page)
+    useEffect(() => {
+        if(isError) {
+            console.log(message);
+        }
+        if(!user) {
+            navigate('/login')
+        }
+        
+        dispatch(getTasks())
+        
+        return () => {
+            dispatch(reset())
+          }
+    }, [user, navigate, isError, message, dispatch])
+
+    if (isLoading) {
+        return  <Spinner />
     }
 
-    if (!user) {
-      navigate('/login')
-    }
+    return (
+      <div className='dashboard' data-testid="dashboard">
 
-    dispatch(getTasks())
+        <section className="heading">
+          <h1>Welcome, {user && user.name}</h1>
+          <p>Dashboard</p>
+        </section>
 
-    return () => {
-      dispatch(reset);
-    }
+        {/* Links to features */}
+        <section>
+          <ul>
+            <li>
+              <button className='btn'>
+                <Link to='/task-setter'>
+                   Tasksetter
+                </Link>
+              </button>
+            </li>
+            <li>
+              <button className='btn'>
+                <Link to='/calculate-convert'>
+                   Calculations and Conversions
+                </Link>
+              </button>
+            </li>
+            <li>
+              <button className='btn'>
+                <Link to='/notes'>
+                   Project Notes
+                </Link>
+              </button>
+            </li>
+            <li>
+              <button className='btn'>
+                <Link to='/track-costs'>
+                   Enter/Track Project Costs
+                </Link>
+              </button>
+            </li>
+            <li>
+              <button className='btn'>
+                <Link to='/time-tracker'>
+                   TimeTracker
+                </Link>
+              </button>
+            </li>
+            <li>
+              <button className='btn'>
+                <Link to='/contacts'>
+                   Contacts
+                </Link>
+              </button>
+            </li>
+          </ul>
+        </section>
 
-  }, [user, navigate, isError, message, dispatch]);
-
-  if (isLoading) {
-    return <Spinner/>
+      </div>
+    )
   }
-
-  return (
-    <div className='dashboard' data-testid="dashboard">
-      <section className="heading">
-        <h1>Welcome, {user && user.name}</h1>
-        <p>Dashboard</p>
-      </section>
-      <TaskForm />
-
-      {/* Display Tasks */}
-      <section className="content">
-        {tasks.length > 0 ? (
-          <div data-testid="tasks" className="tasks">
-            {tasks.map((task) => (
-              <TaskItem key={task._id} task={task} />
-            ))}
-          </div>
-        ) : (
-          <h3>There are no tasks to show now. Consider adding some first.</h3>
-        )}
-      </section>
-    </div>
-  )
-}
-
-export default Dashboard
