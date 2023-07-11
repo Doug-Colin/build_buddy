@@ -144,7 +144,6 @@ export default function CalcForm() {
                 <p>Angle a3: {solvedTriangle.gamma}</p>
               </div>
             )}
-           <h2></h2>
             </section> 
         </div>
      )

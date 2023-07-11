@@ -1,5 +1,5 @@
 import React  from 'react'
-import CalcForm from '../components/CalcForm'
+import TriangleCalc from '../components/TriangleCalc'
 // import { useDispatch } from 'react-redux'
 // import { setCategory } from '../features/convert/convertSlice'
 
@@ -50,7 +50,7 @@ export default function Calculate() {
         </section>
         <br/>
       </div> */}
-      <CalcForm />
+      <TriangleCalc />
     </div>
       )
 }
