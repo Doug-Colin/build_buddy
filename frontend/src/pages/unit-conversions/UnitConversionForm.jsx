@@ -1,7 +1,7 @@
 import React from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import convert from 'convert-units'
-import { setValue, setCurrentUnit, setNewUnit, setResult,  } from '../features/convert/convertSlice'
+import { setValue, setCurrentUnit, setNewUnit, setResult,  } from '../../features/convert/convertSlice'
 
 //add function later to convertSlice for POST request to save converted value to note, and dispatch function here
 
